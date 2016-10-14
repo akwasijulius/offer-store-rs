@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.julius.oduro.apps</groupId>
-	<artifactId>worldpay</artifactId>
+	<artifactId>offer-store</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>WorldPay</name>
-	<description>WorldPay Code Assignment</description>
+	<name>Offer Store</name>
+	<description>Offer Store Code Assignment</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
