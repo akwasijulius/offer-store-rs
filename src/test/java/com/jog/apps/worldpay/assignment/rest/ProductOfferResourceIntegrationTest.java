@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jog.apps.worldpay.assignment.entity.Product;
+import com.jog.apps.wp.offerstore.entity.Product;
 
 
 

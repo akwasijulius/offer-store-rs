@@ -17,10 +17,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.jog.apps.worldpay.assignment.common.exception.DAOException;
-import com.jog.apps.worldpay.assignment.dao.OfferDAO;
-import com.jog.apps.worldpay.assignment.dao.impl.OfferDAOImpl;
-import com.jog.apps.worldpay.assignment.entity.Product;
+import com.jog.apps.wp.offerstore.common.exception.DAOException;
+import com.jog.apps.wp.offerstore.dao.OfferDAO;
+import com.jog.apps.wp.offerstore.dao.impl.OfferDAOImpl;
+import com.jog.apps.wp.offerstore.entity.Product;
 
 @RunWith(MockitoJUnitRunner.class) 
 public class OfferDAOTest {

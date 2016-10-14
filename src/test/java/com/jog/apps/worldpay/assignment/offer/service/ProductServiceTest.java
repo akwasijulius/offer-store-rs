@@ -13,12 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.jog.apps.worldpay.assignment.common.exception.DAOException;
-import com.jog.apps.worldpay.assignment.common.exception.ServiceException;
-import com.jog.apps.worldpay.assignment.dao.OfferDAO;
-import com.jog.apps.worldpay.assignment.entity.Product;
-import com.jog.apps.worldpay.assignment.service.ProductService;
-import com.jog.apps.worldpay.assignment.service.impl.ProductServiceImpl;
+import com.jog.apps.wp.offerstore.common.exception.DAOException;
+import com.jog.apps.wp.offerstore.common.exception.ServiceException;
+import com.jog.apps.wp.offerstore.dao.OfferDAO;
+import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.service.ProductService;
+import com.jog.apps.wp.offerstore.service.impl.ProductServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductServiceTest {

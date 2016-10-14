@@ -18,8 +18,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.jog.apps.worldpay.assignment.entity.Product;
-import com.jog.apps.worldpay.assignment.service.ProductService;
+import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
+import com.jog.apps.wp.offerstore.service.ProductService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductOfferResourceTest {
