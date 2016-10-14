@@ -1,4 +1,4 @@
-package com.jog.apps.worldpay.assignment.offer.dao;
+package com.jog.apps.wp.offerstore.dao;
 
 import static org.mockito.Matchers.anyMapOf;
 import static org.mockito.Matchers.anyString;

@@ -1,4 +1,4 @@
-package com.jog.apps.worldpay.assignment.offer.service;
+package com.jog.apps.wp.offerstor.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

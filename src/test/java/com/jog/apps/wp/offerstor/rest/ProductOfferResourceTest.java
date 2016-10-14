@@ -1,4 +1,4 @@
-package com.jog.apps.worldpay.assignment.rest;
+package com.jog.apps.wp.offerstor.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
