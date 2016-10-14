@@ -38,7 +38,7 @@ public class ProductOfferResource {
 	ProductService productService;
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response createProductOffer(Product product) {
 		try {
 
@@ -70,7 +70,7 @@ public class ProductOfferResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Product> getProducts(@PathParam("id") int id) throws Exception {
+	public List<Product> getProducts() throws Exception {
 		try {
 			return productService.getAllProducts();
 		} catch (ServiceException ex) {

@@ -25,21 +25,21 @@
 	</context-param>
 
 	<servlet>
-		<servlet-name>WorldPay Assignment</servlet-name>
+		<servlet-name>OfferStore</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>com.jog.apps.worldpay.assignment</param-value>
+			<param-value>com.jog.apps.wp.offerstore</param-value>
 		</init-param>
 		<init-param>
         	<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
         	<param-value>true</param-value>
     	</init-param>
-		
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>WorldPay Assignment</servlet-name>
-		<url-pattern>/assignment/*</url-pattern>
+		<servlet-name>OfferStore</servlet-name>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>

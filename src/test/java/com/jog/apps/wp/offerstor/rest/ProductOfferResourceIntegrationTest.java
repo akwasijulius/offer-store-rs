@@ -41,10 +41,10 @@ public class ProductOfferResourceIntegrationTest {
 	@Test
 	public void testCreateProductOffer(){		
 		Client client = ClientBuilder.newClient();		
-		Response response = client.target("http://localhost:8080/worldpay/assignment/offers/")				
+		Response response = client.target("http://localhost:8080/offer-store/offers/")				
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.post(Entity.json(product));
+				.post(Entity.xml(product));
 			
 		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));
 		assertThat(response.readEntity(Integer.class), is(not(0)));
@@ -55,7 +55,7 @@ public class ProductOfferResourceIntegrationTest {
 	@Test
 	public void testCreateProductOfferWhenProductIsNull(){		
 		Client client = ClientBuilder.newClient();		
-		Response response = client.target("http://localhost:8080/worldpay/assignment/offers/")				
+		Response response = client.target("http://localhost:8080/offer-store/offers/")				
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.post(Entity.json(null));
@@ -67,7 +67,7 @@ public class ProductOfferResourceIntegrationTest {
 	@Test
 	public void testCreateProductOfferWhenProductIsNotValid(){		
 		Client client = ClientBuilder.newClient();		
-		Response response = client.target("http://localhost:8080/worldpay/assignment/offers/")				
+		Response response = client.target("http://localhost:8080/offer-store/offers/")				
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.post(Entity.json(new Product()));
@@ -81,7 +81,7 @@ public class ProductOfferResourceIntegrationTest {
 	public void testRetrivingOfferJustCreated(){		
 		Client client = ClientBuilder.newClient();	
 		
-		Response response = client.target("http://localhost:8080/worldpay/assignment/offers/")				
+		Response response = client.target("http://localhost:8080/offer-store/offers/")				
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)				
 				.post(Entity.json(product));
@@ -91,7 +91,7 @@ public class ProductOfferResourceIntegrationTest {
 			
 		// get the recently saved product	
 		product.setId(response.readEntity(Integer.class));
-		Product returnedProduct = client.target("http://localhost:8080/worldpay/assignment/offers/")
+		Product returnedProduct = client.target("http://localhost:8080/offer-store/offers/")
 				.path(String.valueOf(product.getId()))				
 				.request()
 				.accept(MediaType.APPLICATION_JSON)			

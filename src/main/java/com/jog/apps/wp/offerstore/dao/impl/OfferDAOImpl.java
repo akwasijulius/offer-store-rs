@@ -5,6 +5,7 @@ package com.jog.apps.wp.offerstore.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,8 @@ public class OfferDAOImpl implements OfferDAO {
 	}
 
 	public List<Product> getAllProducts() {
-		return this.jdbcTemplate.query("select id, name, description, price from Products", new ProductMapper());
+		List<Product> products = this.jdbcTemplate.query("select id, name, description, price from Products", new ProductMapper());
+		return (products == null) ? Collections.EMPTY_LIST : products;
 	}
 
 	private static final class ProductMapper implements RowMapper<Product> {
