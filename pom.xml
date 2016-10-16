@@ -16,7 +16,7 @@
 	</properties>
 
 	<build>
-		<sourceDirectory>src/main/java/</sourceDirectory>
+		<sourceDirectory>src/main/java/</sourceDirectory>	
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -39,8 +39,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12.4</version>
 				<configuration>
-					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
-					<!-- <skipTests>${skip.unit.tests}</skipTests> -->
 					<!-- Excludes integration tests when unit tests are run -->
 					<excludes>
 						<exclude>**/*IntegrationTest.java</exclude>
@@ -54,7 +52,7 @@
 				<version>2.12.4</version>
 				<configuration>
 					<includes>
-						<include>**/*IntegrationTest*</include>
+						<include>**/*IntegrationTest.java</include>
 					</includes>
 				</configuration>
 				<executions>
@@ -72,7 +70,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.0</version>
 				<configuration>
-					<path>/</path>
+					<path>/offer-store</path>
 				</configuration>
 				<executions>
 					<execution>
@@ -250,8 +248,6 @@
 			<version>3.0.1</version>
 			<scope>test</scope>
 		</dependency>
-
-
 
 	</dependencies>
 </project>

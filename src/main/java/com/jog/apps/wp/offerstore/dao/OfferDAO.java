@@ -9,7 +9,7 @@ import com.jog.apps.wp.offerstore.common.exception.DAOException;
 import com.jog.apps.wp.offerstore.entity.Product;
 
 /**
- * DAO for offers
+ * DAO for product offers
  * 
  * @author Julius Oduro
  */
@@ -30,6 +30,7 @@ public interface OfferDAO {
 	
 	/**
 	 * Finds and returns the Product mapping to the specified id
+	 * 
 	 * @param id The unique id to be used for search
 	 * @return Product if found or null
 	 * @throws DAOException, if an error occurs during this process
@@ -37,6 +38,12 @@ public interface OfferDAO {
 	public Product getProductById(int id) throws DAOException;
 	
 	
+	/**
+	 * List of all the products.
+	 * 
+	 * @return List of all the product or an empty list if there is null
+	 * @throws DAOException if an error occurs during this process
+	 */
 	public List<Product> getAllProducts()throws DAOException;
 
 }

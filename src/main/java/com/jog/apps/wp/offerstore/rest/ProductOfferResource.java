@@ -38,7 +38,7 @@ public class ProductOfferResource {
 	ProductService productService;
 
 	@POST
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createProductOffer(Product product) {
 		try {
 
@@ -79,6 +79,15 @@ public class ProductOfferResource {
 			logger.log(Level.SEVERE, exception.getMessage(), exception);
 			throw new WebApplicationException(exception.getMessage());
 		}
+	}
+	
+	@GET @Path("{welcome}")
+	@Produces(MediaType.TEXT_HTML)	
+	public String getUserDeatils(){
+		return "<html> " + 
+				"<title>Offer Store</title>" +
+				"<body><h1>Hello and Welcome to your Product Offer Store</h1></body>" + 
+				"</html> ";
 	}
 
 }

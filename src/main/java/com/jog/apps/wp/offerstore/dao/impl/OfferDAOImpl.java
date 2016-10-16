@@ -51,7 +51,7 @@ public class OfferDAOImpl implements OfferDAO {
 			product.setId(sequenceIdGenetrator.incrementAndGet());
 			paramMap.put("id", product.getId());
 			paramMap.put("name", product.getName());
-			paramMap.put("description", product.getDecription());
+			paramMap.put("description", product.getDescription());
 			paramMap.put("price", product.getPrice());
 
 			int insertedRows = jdbcTemplate.update(sql, paramMap);
@@ -80,23 +80,25 @@ public class OfferDAOImpl implements OfferDAO {
 			return this.jdbcTemplate.queryForObject(sql, namedParameters, new ProductMapper());
 		} catch (org.springframework.dao.DataAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new DAOException("Create Product Offer failed.", e);
+			throw new DAOException("Fetching Product Offer failed.", e);
 		}
 	}
 
 	public List<Product> getAllProducts() {
-		List<Product> products = this.jdbcTemplate.query("select id, name, description, price from Products", new ProductMapper());
-		return (products == null) ? Collections.EMPTY_LIST : products;
+		String sql = "select id, name, description, price from Products";
+		List<Product> products = this.jdbcTemplate.query(sql, new ProductMapper());
+		return (products == null) ? Collections.emptyList() : products;
 	}
 
+	
 	private static final class ProductMapper implements RowMapper<Product> {
 
 		public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Product product = new Product();
-			product.setId(rs.getInt("id"));
-			product.setName(rs.getString("name"));
-			product.setDecription(rs.getString("description"));
-			product.setPrice(rs.getBigDecimal("price"));
+			Product product = new Product()
+					.setId(rs.getInt("id"))
+					.setName(rs.getString("name"))
+					.setDescription(rs.getString("description"))
+					.setPrice(rs.getBigDecimal("price"));
 			return product;
 		}
 	}

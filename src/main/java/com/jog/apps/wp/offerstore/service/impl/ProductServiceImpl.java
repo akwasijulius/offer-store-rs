@@ -21,11 +21,12 @@ public class ProductServiceImpl implements ProductService {
 	public int createProductOffer(Product product) throws ServiceException {
 		if(product == null || product.getName() == null || product.getName().isEmpty()){
 			throw new IllegalArgumentException("Product or product name should not be null");
-		}		
+		}	
+		
 		try {
 			return offerDao.createProductOffer(product);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e.getCause());
 		}
 
 	}
@@ -35,16 +36,17 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			return offerDao.getProductById(id);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e.getCause());
 		}
 
 	}
 	
+	@Override
 	public List<Product> getAllProducts() throws ServiceException{
 		try {
 			return offerDao.getAllProducts();
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e.getCause());
 		}
 	}
 

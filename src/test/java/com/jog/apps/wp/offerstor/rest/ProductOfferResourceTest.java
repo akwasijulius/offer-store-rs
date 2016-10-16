@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.jog.apps.wp.offerstore.common.exception.ServiceException;
 import com.jog.apps.wp.offerstore.entity.Product;
 import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
 import com.jog.apps.wp.offerstore.service.ProductService;
@@ -39,9 +41,6 @@ public class ProductOfferResourceTest {
 		
 	}
 	
-	
-	 
-	
 	@Test
 	public void testCreateProductOffer() throws Exception {
 		Product product = new Product("name", "decription", BigDecimal.ONE);			
@@ -59,10 +58,52 @@ public class ProductOfferResourceTest {
 		assertThat(returnedResponse.getStatus(), is(Response.Status.OK.getStatusCode()));
 		assertThat(returnedResponse.getEntity(), is(101));		
 	}
-
-	@Test
-	public void testGetProductOffer() {
-		//fail("Not yet implemented"); // TODO
+	
+	
+	@Test(expected=WebApplicationException.class)
+	public void testCreateProductOfferWhenProductIsNull() throws Exception {	
+		
+		when(productService.createProductOffer(null)).thenThrow(new IllegalArgumentException());
+						
+		productOfferResource.createProductOffer(null);		
 	}
+	
+	
+	@Test(expected=WebApplicationException.class)
+	public void testCreateProductOfferWhenServiceExceptionIsThrown() throws Exception {	
+		
+		when(productService.createProductOffer(null)).thenThrow(new ServiceException("Exception Throw", new RuntimeException()));
+						
+		productOfferResource.createProductOffer(null);		
+	}
+	
+	
+	@Test
+	public void testGetProductOfferShouldReturnProduct() throws Exception{
+		int productId = 101; 
+				
+		when(productService.getProductOffer(productId)).thenReturn(new Product("name", "description", BigDecimal.ONE).setId(productId));
+		
+		Product product = productOfferResource.getProductOffer(productId);
+		
+		assertThat(product, is(notNullValue()));
+		assertThat(product.getId(), is(productId));
+		assertThat(product.getName(), is("name"));
+		assertThat(product.getDescription(), is("description"));
+		assertThat(product.getPrice(), is(BigDecimal.ONE));
+		
+	}
+	
+
+	@Test(expected=WebApplicationException.class)
+	public void testGetProductOfferWhenProductDoesNotExist() throws Exception{
+		int productId = 100; 
+				
+		when(productService.getProductOffer(productId)).thenThrow(new ServiceException("Fetching Product Offer failed.", new Exception()));
+		
+		productOfferResource.getProductOffer(productId);		
+	}
+
+	
 
 }

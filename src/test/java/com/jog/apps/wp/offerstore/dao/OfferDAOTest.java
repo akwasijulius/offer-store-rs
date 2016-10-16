@@ -42,11 +42,10 @@ public class OfferDAOTest {
 
 	
 	private Product setUpProduct(){
-		Product product = new Product();
-		product.setId(1);
-		product.setName("Product 1");
-		product.setDecription("Product 1 Description");
-		return product;
+		return new Product()
+				.setId(1)
+				.setName("Product 1")
+				.setDescription("Product 1 Description");
 	}
 	
 	@Test

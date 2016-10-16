@@ -9,8 +9,8 @@ import com.jog.apps.wp.offerstore.common.exception.ServiceException;
 import com.jog.apps.wp.offerstore.entity.Product;
 
 /**
+ * Service class for Product Offers
  * @author Julius Oduro
- *
  */
 public interface ProductService {
 
@@ -36,6 +36,11 @@ public interface ProductService {
 	public Product getProductOffer(int id) throws ServiceException;
 	
 	
+	/**
+	 * Return list of all products
+	 * @return list of products or an empty string
+	 * @throws ServiceException if an error occurs during this process
+	 */
 	public List<Product> getAllProducts() throws ServiceException;
 
 }

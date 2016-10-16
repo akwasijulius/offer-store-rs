@@ -1,14 +1,16 @@
 /**
  * 
  */
-package com.jog.apps.wp.offerstor.rest;
+package com.jog.apps.wp.offerstor.rest.integration;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.isNull;
 
 import java.math.BigDecimal;
 
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -29,13 +31,12 @@ import com.jog.apps.wp.offerstore.entity.Product;
  */
 public class ProductOfferResourceIntegrationTest {
 
-	Product product;
+	private Product product;
 	
 	@Before
 	public void setUp(){
 		product = new Product("Antique Clock", "Very Old Antique Clock", BigDecimal.TEN);
 	}
-
 
 	
 	@Test
@@ -44,7 +45,7 @@ public class ProductOfferResourceIntegrationTest {
 		Response response = client.target("http://localhost:8080/offer-store/offers/")				
 				.request(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.post(Entity.xml(product));
+				.post(Entity.json(product));
 			
 		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));
 		assertThat(response.readEntity(Integer.class), is(not(0)));
@@ -99,6 +100,33 @@ public class ProductOfferResourceIntegrationTest {
 		
 		assertThat(returnedProduct, is( product));	
 		
+	}
+	
+	
+
+	@Test(expected=InternalServerErrorException.class)
+	public void testRetrivingOfferThatDoesNotExist(){		
+		Client client = ClientBuilder.newClient();	
+		
+		Response response = client.target("http://localhost:8080/offer-store/offers/")				
+				.request(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)				
+				.post(Entity.json(product));
+		
+		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));		
+		
+			
+		//productId that does not exist
+		product.setId(-1);
+		Product returnedProduct = client.target("http://localhost:8080/offer-store/offers/")
+				.path(String.valueOf(product.getId()))				
+				.request()
+				.accept(MediaType.APPLICATION_JSON)			
+				.get(Product.class);
+		
+		assertThat(returnedProduct, is( isNull()));	
+		//assertThat(response.getStatus(), is( Status.INTERNAL_SERVER_ERROR.getStatusCode()));		
+		//response.close();
 	}
 
 }

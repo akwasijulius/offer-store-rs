@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Product entity
+ * 
  * @author Julius Oduro
  */
 @XmlRootElement
@@ -18,16 +20,16 @@ public class Product implements  Serializable  {
 	
 	private int id;
 	private String name;
-	private String decription;
+	private String description;
 	private BigDecimal price;
 	
 	public Product(){
 		
 	}
 	
-	public Product(String name, String decription, BigDecimal price) {
+	public Product(String name, String description, BigDecimal price) {
 		this.name = name;
-		this.decription = decription;
+		this.description = description;
 		this.price = price;
 	}
 	
@@ -35,27 +37,31 @@ public class Product implements  Serializable  {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public Product setId(int id) {
 		this.id = id;
+		return this;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public Product setName(String name) {
 		this.name = name;
+		return this;
 	}
-	public String getDecription() {
-		return decription;
+	public String getDescription() {
+		return description;
 	}
-	public void setDecription(String decription) {
-		this.decription = decription;
+	public Product setDescription(String description) {
+		this.description = description;
+		return this;
 	}	
 	
 	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public Product setPrice(BigDecimal price) {
 		this.price = price;
+		return this;
 	}
 	
 	@Override
