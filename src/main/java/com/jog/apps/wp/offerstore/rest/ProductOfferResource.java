@@ -3,7 +3,6 @@
  */
 package com.jog.apps.wp.offerstore.rest;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

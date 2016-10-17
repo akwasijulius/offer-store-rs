@@ -3,8 +3,6 @@
  */
 package com.jog.apps.wp.offerstore.dao;
 
-import java.util.List;
-
 import com.jog.apps.wp.offerstore.common.exception.DAOException;
 import com.jog.apps.wp.offerstore.entity.Product;
 
