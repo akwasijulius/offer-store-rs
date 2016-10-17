@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jog.apps.wp.offerstor.rest.integration;
+package com.jog.apps.wp.offerstore.rest.integration;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;

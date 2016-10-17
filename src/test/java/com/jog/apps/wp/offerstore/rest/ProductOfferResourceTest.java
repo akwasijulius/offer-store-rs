@@ -1,4 +1,4 @@
-package com.jog.apps.wp.offerstor.rest;
+package com.jog.apps.wp.offerstore.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
