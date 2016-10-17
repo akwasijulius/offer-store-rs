@@ -1,13 +1,8 @@
-/**
- * 
- */
 package com.jog.apps.wp.offerstore.rest.integration;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNull;
-
 import java.math.BigDecimal;
 
 import javax.ws.rs.InternalServerErrorException;
@@ -26,8 +21,9 @@ import com.jog.apps.wp.offerstore.entity.Product;
 
 
 /**
+ * Integration test class for Product Offer functionalities
+ * 
  * @author Julius Oduro
- *
  */
 public class ProductOfferResourceIntegrationTest {
 
@@ -106,27 +102,15 @@ public class ProductOfferResourceIntegrationTest {
 
 	@Test(expected=InternalServerErrorException.class)
 	public void testRetrivingOfferThatDoesNotExist(){		
-		Client client = ClientBuilder.newClient();	
-		
-		Response response = client.target("http://localhost:8080/offer-store/offers/")				
-				.request(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)				
-				.post(Entity.json(product));
-		
-		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));		
-		
-			
+		Client client = ClientBuilder.newClient();
 		//productId that does not exist
 		product.setId(-1);
-		Product returnedProduct = client.target("http://localhost:8080/offer-store/offers/")
+		client.target("http://localhost:8080/offer-store/offers/")
 				.path(String.valueOf(product.getId()))				
 				.request()
-				.accept(MediaType.APPLICATION_JSON)			
-				.get(Product.class);
+				.accept(MediaType.APPLICATION_JSON)		
+				.get(Product.class);		
 		
-		assertThat(returnedProduct, is( isNull()));	
-		//assertThat(response.getStatus(), is( Status.INTERNAL_SERVER_ERROR.getStatusCode()));		
-		//response.close();
 	}
 
 }

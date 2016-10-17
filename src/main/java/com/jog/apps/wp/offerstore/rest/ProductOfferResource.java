@@ -81,13 +81,5 @@ public class ProductOfferResource {
 		}
 	}
 	
-	@GET @Path("{welcome}")
-	@Produces(MediaType.TEXT_HTML)	
-	public String getUserDeatils(){
-		return "<html> " + 
-				"<title>Offer Store</title>" +
-				"<body><h1>Hello and Welcome to your Product Offer Store</h1></body>" + 
-				"</html> ";
-	}
-
+	
 }
