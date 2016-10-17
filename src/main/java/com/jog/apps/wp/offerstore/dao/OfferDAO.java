@@ -38,12 +38,6 @@ public interface OfferDAO {
 	public Product getProductById(int id) throws DAOException;
 	
 	
-	/**
-	 * List of all the products.
-	 * 
-	 * @return List of all the product or an empty list if there is null
-	 * @throws DAOException if an error occurs during this process
-	 */
-	public List<Product> getAllProducts()throws DAOException;
+	
 
 }

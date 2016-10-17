@@ -41,13 +41,5 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 	
-	@Override
-	public List<Product> getAllProducts() throws ServiceException{
-		try {
-			return offerDao.getAllProducts();
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage(), e.getCause());
-		}
-	}
 
 }

@@ -84,12 +84,6 @@ public class OfferDAOImpl implements OfferDAO {
 		}
 	}
 
-	public List<Product> getAllProducts() {
-		String sql = "select id, name, description, price from Products";
-		List<Product> products = this.jdbcTemplate.query(sql, new ProductMapper());
-		return (products == null) ? Collections.emptyList() : products;
-	}
-
 	
 	private static final class ProductMapper implements RowMapper<Product> {
 

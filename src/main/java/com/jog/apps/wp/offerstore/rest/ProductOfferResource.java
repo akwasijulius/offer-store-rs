@@ -68,18 +68,5 @@ public class ProductOfferResource {
 		}
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Product> getProducts() throws Exception {
-		try {
-			return productService.getAllProducts();
-		} catch (ServiceException ex) {
-			throw new WebApplicationException(ex.getMessage());
-		} catch (Exception exception) {
-			logger.log(Level.SEVERE, exception.getMessage(), exception);
-			throw new WebApplicationException(exception.getMessage());
-		}
-	}
-	
 	
 }
