@@ -1,4 +1,4 @@
-package com.jog.apps.wp.offerstor.service;
+package com.jog.apps.wp.offerstore.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
