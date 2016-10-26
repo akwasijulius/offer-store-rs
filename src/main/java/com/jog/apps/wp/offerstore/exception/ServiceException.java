@@ -1,4 +1,4 @@
-package com.jog.apps.wp.offerstore.common.exception;
+package com.jog.apps.wp.offerstore.exception;
 
 /**
  * ServiceException are exceptions thrown from the service layer.

@@ -1,5 +1,5 @@
 
-package com.jog.apps.wp.offerstore.common.exception;
+package com.jog.apps.wp.offerstore.exception;
 
 /**
  * DAOException are exceptions thrown from the data access layer. They are

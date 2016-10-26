@@ -17,9 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.jog.apps.wp.offerstore.common.exception.DAOException;
 import com.jog.apps.wp.offerstore.dao.OfferDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.exception.DAOException;
 
 @RunWith(MockitoJUnitRunner.class) 
 public class OfferDAOTest {
