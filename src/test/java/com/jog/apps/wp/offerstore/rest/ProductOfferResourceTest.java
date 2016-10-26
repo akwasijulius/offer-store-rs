@@ -19,8 +19,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.jog.apps.wp.offerstore.common.exception.ServiceException;
 import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.exception.ServiceException;
 import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
 import com.jog.apps.wp.offerstore.service.ProductService;
 

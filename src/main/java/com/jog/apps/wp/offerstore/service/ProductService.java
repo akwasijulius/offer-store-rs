@@ -3,8 +3,8 @@
  */
 package com.jog.apps.wp.offerstore.service;
 
-import com.jog.apps.wp.offerstore.common.exception.ServiceException;
 import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.exception.ServiceException;
 
 /**
  * Service class for Product Offers

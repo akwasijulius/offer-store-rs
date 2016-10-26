@@ -1,23 +1,24 @@
-package com.jog.apps.wp.offerstore.service.impl;
+package com.jog.apps.wp.offerstore.service;
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jog.apps.wp.offerstore.common.exception.DAOException;
-import com.jog.apps.wp.offerstore.common.exception.ServiceException;
 import com.jog.apps.wp.offerstore.dao.OfferDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
-import com.jog.apps.wp.offerstore.service.ProductService;
+import com.jog.apps.wp.offerstore.exception.DAOException;
+import com.jog.apps.wp.offerstore.exception.ServiceException;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private OfferDAO offerDao;
 
 	@Override
 	public int createProductOffer(Product product) throws ServiceException {
-		if(product == null || product.getName() == null || product.getName().isEmpty()){
+		if(product == null || StringUtils.isEmpty(product.getName())){
 			throw new IllegalArgumentException("Product or product name should not be null");
 		}	
 		
