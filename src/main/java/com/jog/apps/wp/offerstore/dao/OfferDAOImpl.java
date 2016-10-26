@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.jog.apps.wp.offerstore.dao.impl;
+package com.jog.apps.wp.offerstore.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +20,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.jog.apps.wp.offerstore.common.exception.DAOException;
-import com.jog.apps.wp.offerstore.dao.OfferDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
 
 /**
@@ -28,7 +27,7 @@ import com.jog.apps.wp.offerstore.entity.Product;
  *
  */
 @Repository
-public class OfferDAOImpl implements OfferDAO {
+class OfferDAOImpl implements OfferDAO {
 
 	private static Logger logger = Logger.getLogger(OfferDAOImpl.class.getName());
 
