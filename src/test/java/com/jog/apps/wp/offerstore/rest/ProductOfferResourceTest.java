@@ -1,5 +1,6 @@
 package com.jog.apps.wp.offerstore.rest;
 
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -55,7 +56,7 @@ public class ProductOfferResourceTest {
 		Response returnedResponse = productOfferResource.createProductOffer(product);
 	
 		assertThat(returnedResponse, is(notNullValue()));
-		assertThat(returnedResponse.getStatus(), is(Response.Status.OK.getStatusCode()));
+		assertThat(returnedResponse.getStatus(), is(Response.Status.CREATED.getStatusCode()));
 		assertThat(returnedResponse.getEntity(), is(101));		
 	}
 	

@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,7 +29,7 @@ import com.jog.apps.wp.offerstore.exception.DAOException;
 @Repository
 class OfferDAOImpl implements OfferDAO {
 
-	private static Logger logger = Logger.getLogger(OfferDAOImpl.class.getName());
+	private static Logger logger = LogManager.getLogger(OfferDAOImpl.class);
 
 	private static AtomicInteger sequenceIdGenetrator = new AtomicInteger(100);
 
@@ -54,15 +54,16 @@ class OfferDAOImpl implements OfferDAO {
 			int insertedRows = jdbcTemplate.update(sql, paramMap);
 
 			if (insertedRows == 1) {
+				logger.info("Product {}, {} created.", product.getId(), product.getName());
 				return product.getId();
 			} else {
 				String message = String.format(
 						"Create Product Offer failed, should insert 1 row but %s row was inserted", insertedRows);
-				logger.log(Level.SEVERE, message);
+				logger.error( message);
 				throw new DAOException(message);
 			}
 		} catch (DataAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			logger.error(e.getMessage(), e);
 			throw new DAOException("Create Product Offer failed.", e);
 		}
 
@@ -76,7 +77,7 @@ class OfferDAOImpl implements OfferDAO {
 		try {
 			return this.jdbcTemplate.queryForObject(sql, namedParameters, new ProductMapper());
 		} catch (org.springframework.dao.DataAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			logger.error( e.getMessage(), e);
 			throw new DAOException("Fetching Product Offer failed.", e);
 		}
 	}

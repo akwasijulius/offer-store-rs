@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.jog.apps.wp.offerstore.entity.Product;
@@ -43,7 +44,7 @@ public class ProductOfferResource {
 
 			int productId = productService.createProductOffer(product);
 
-			return Response.ok().entity(productId).build();
+			return Response.status(Response.Status.CREATED).entity(productId).build();
 
 		} catch (ServiceException ex) {
 			throw new WebApplicationException(ex.getMessage());
@@ -60,7 +61,14 @@ public class ProductOfferResource {
 		try {
 			return productService.getProductOffer(id);
 		} catch (ServiceException ex) {
-			throw new WebApplicationException(ex.getMessage());
+			Response.Status status = null;
+			if(ex.getCause() instanceof EmptyResultDataAccessException){
+				status = Response.Status.NOT_FOUND;
+			}
+			else{
+				status = Response.Status.INTERNAL_SERVER_ERROR;
+			}
+			throw new WebApplicationException(ex.getMessage(), status);
 		} catch (Exception exception) {
 			logger.log(Level.SEVERE, exception.getMessage(), exception);
 			throw new WebApplicationException(exception.getMessage());

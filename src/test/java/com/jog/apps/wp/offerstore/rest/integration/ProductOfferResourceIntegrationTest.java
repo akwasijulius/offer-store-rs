@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.math.BigDecimal;
 
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -43,7 +44,7 @@ public class ProductOfferResourceIntegrationTest {
 				.accept(MediaType.APPLICATION_JSON)
 				.post(Entity.json(product));
 			
-		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));
+		assertThat(response.getStatus(), is( Status.CREATED.getStatusCode()));
 		assertThat(response.readEntity(Integer.class), is(not(0)));
 		
 		response.close();
@@ -83,7 +84,7 @@ public class ProductOfferResourceIntegrationTest {
 				.accept(MediaType.APPLICATION_JSON)				
 				.post(Entity.json(product));
 		
-		assertThat(response.getStatus(), is( Status.OK.getStatusCode()));		
+		assertThat(response.getStatus(), is( Status.CREATED.getStatusCode()));		
 		
 			
 		// get the recently saved product	
@@ -100,7 +101,7 @@ public class ProductOfferResourceIntegrationTest {
 	
 	
 
-	@Test(expected=InternalServerErrorException.class)
+	@Test(expected=NotFoundException.class)
 	public void testRetrivingOfferThatDoesNotExist(){		
 		Client client = ClientBuilder.newClient();
 		//productId that does not exist
