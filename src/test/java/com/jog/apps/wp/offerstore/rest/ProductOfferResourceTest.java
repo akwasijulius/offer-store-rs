@@ -7,6 +7,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -21,6 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 import com.jog.apps.wp.offerstore.exception.ServiceException;
 import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
 import com.jog.apps.wp.offerstore.service.ProductService;
@@ -70,6 +74,7 @@ public class ProductOfferResourceTest {
 	}
 	
 	
+	//// Get Product Tests ////
 	@Test(expected=WebApplicationException.class)
 	public void testCreateProductOfferWhenServiceExceptionIsThrown() throws Exception {	
 		
@@ -95,14 +100,47 @@ public class ProductOfferResourceTest {
 		
 	}
 	
+	
+	@Test(expected=WebApplicationException.class)
+	public void shouldThrowexceptionWhenProductDoesNotExist() throws Exception{
+		when(productService.getProductOffer(100)).thenThrow(new ItemNotFoundException("Product not found"));
+		
+		productOfferResource.getProductOffer(100);		
+	}
+	
 
 	@Test(expected=WebApplicationException.class)
-	public void testGetProductOfferWhenProductDoesNotExist() throws Exception{
+	public void shouldThrowExceptionWhenGetProductFails() throws Exception{
 		int productId = 100; 
 				
 		when(productService.getProductOffer(productId)).thenThrow(new ServiceException("Fetching Product Offer failed.", new Exception()));
 		
 		productOfferResource.getProductOffer(productId);		
+	}
+	
+	
+	//// Get All Products Tests ////
+	@Test
+	public void getAllProducts() throws Exception{
+		List<Product> products = Arrays.asList(new Product(), new Product(), new Product());
+		
+		when(productService.getProducts()).thenReturn(products);
+		
+		List<Product> returnedProducts = productOfferResource.getProducts();
+		
+		assertThat(returnedProducts, is(products));		
+	}
+	
+	
+	@Test
+	public void getAllProductsShouldReturnEmptyList() throws Exception{
+		List<Product> products = Collections.emptyList();
+		
+		when(productService.getProducts()).thenReturn(products);
+		
+		List<Product> returnedProducts = productOfferResource.getProducts();
+		
+		assertThat(returnedProducts, is(products));		
 	}
 
 	

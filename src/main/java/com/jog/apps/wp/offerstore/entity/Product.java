@@ -23,8 +23,7 @@ public class Product implements  Serializable  {
 	private String description;
 	private BigDecimal price;
 	
-	public Product(){
-		
+	public Product(){		
 	}
 	
 	public Product(String name, String description, BigDecimal price) {

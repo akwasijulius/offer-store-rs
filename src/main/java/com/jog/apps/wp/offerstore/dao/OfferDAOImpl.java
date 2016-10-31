@@ -6,6 +6,7 @@ package com.jog.apps.wp.offerstore.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jog.apps.wp.offerstore.entity.Product;
 import com.jog.apps.wp.offerstore.exception.DAOException;
+import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 
 /**
  * @author Julius Oduro
@@ -70,21 +73,37 @@ class OfferDAOImpl implements OfferDAO {
 	}
 
 	@Override
-	public Product getProductById(int id) throws DAOException {
+	public Product fetchProductById(int id) throws DAOException, ItemNotFoundException {
 		String sql = "select id, name, description, price from Products where id = :id";
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
 
 		try {
 			return this.jdbcTemplate.queryForObject(sql, namedParameters, new ProductMapper());
-		} catch (org.springframework.dao.DataAccessException e) {
+		}catch(EmptyResultDataAccessException ex){
+			logger.error( "Nothing found for Product Id {}", id);
+			throw new ItemNotFoundException("Product ID "+ id + " not found");
+		}catch (DataAccessException e) {
 			logger.error( e.getMessage(), e);
 			throw new DAOException("Fetching Product Offer failed.", e);
 		}
 	}
 
+
+	@Override
+	public List<Product> fetchAllProducts() throws DAOException {
+		try {
+			return this.jdbcTemplate.query("select * from Products", new ProductMapper());
+		} catch (DataAccessException e) {
+			logger.error( e.getMessage(), e);
+			throw new DAOException("Fetching Product Offer failed.", e);
+		}
+	}
+	
+	
+	
+	
 	
 	private static final class ProductMapper implements RowMapper<Product> {
-
 		public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Product product = new Product()
 					.setId(rs.getInt("id"))

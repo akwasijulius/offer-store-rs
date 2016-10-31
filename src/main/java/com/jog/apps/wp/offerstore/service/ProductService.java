@@ -3,7 +3,11 @@
  */
 package com.jog.apps.wp.offerstore.service;
 
+
+import java.util.List;
+
 import com.jog.apps.wp.offerstore.entity.Product;
+import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 import com.jog.apps.wp.offerstore.exception.ServiceException;
 
 /**
@@ -29,9 +33,18 @@ public interface ProductService {
 	 * 
 	 * @param id The unique product id
 	 * @return Product if its exit or null if it doesn't exit
+	 * @throws ItemNotFoundException if Product relation to the specified Id is not found
 	 * @throws ServiceException if an error occurs during this process
 	 */
-	public Product getProductOffer(int id) throws ServiceException;
+	public Product getProductOffer(int id) throws ItemNotFoundException, ServiceException;
+
+	
+	/**
+	 * Return a list of products 
+	 * 
+	 * @return list of products or an empty list if there are no products
+	 */
+	public List<Product> getProducts() throws ServiceException;
 	
 	
 
