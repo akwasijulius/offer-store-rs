@@ -29,6 +29,8 @@ import com.jog.apps.wp.offerstore.exception.ServiceException;
 import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
 import com.jog.apps.wp.offerstore.service.ProductService;
 
+import cucumber.runtime.NullSummaryPrinter;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ProductOfferResourceTest {
 	@Mock
@@ -102,7 +104,7 @@ public class ProductOfferResourceTest {
 	
 	
 	@Test(expected=WebApplicationException.class)
-	public void shouldThrowexceptionWhenProductDoesNotExist() throws Exception{
+	public void shouldExpectINFExceptionWhenProductDoesNotExist() throws Exception{
 		when(productService.getProductOffer(100)).thenThrow(new ItemNotFoundException("Product not found"));
 		
 		productOfferResource.getProductOffer(100);		
@@ -110,12 +112,20 @@ public class ProductOfferResourceTest {
 	
 
 	@Test(expected=WebApplicationException.class)
-	public void shouldThrowExceptionWhenGetProductFails() throws Exception{
+	public void shouldExpectServiceExceptionWhenGetProductFails() throws Exception{
 		int productId = 100; 
 				
 		when(productService.getProductOffer(productId)).thenThrow(new ServiceException("Fetching Product Offer failed.", new Exception()));
 		
 		productOfferResource.getProductOffer(productId);		
+	}
+	
+	
+	@Test(expected=WebApplicationException.class)
+	public void shouldExpectExceptionWhenGetProductFails() throws Exception{				
+		when(productService.getProductOffer(1)).thenThrow(new NullPointerException("Unexpected Error occured"));
+		
+		productOfferResource.getProductOffer(1);		
 	}
 	
 	

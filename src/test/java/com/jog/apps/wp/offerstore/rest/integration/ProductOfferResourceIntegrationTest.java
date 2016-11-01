@@ -1,10 +1,9 @@
 package com.jog.apps.wp.offerstore.rest.integration;
 
+import static java.math.BigDecimal.TEN;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-
-import java.math.BigDecimal;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
@@ -32,7 +31,7 @@ public class ProductOfferResourceIntegrationTest {
 	
 	@Before
 	public void setUp(){
-		product = new Product("Antique Clock", "Very Old Antique Clock", BigDecimal.TEN);
+		product = new Product("Antique Clock", "Very Old Antique Clock", TEN);
 	}
 
 	
@@ -110,8 +109,7 @@ public class ProductOfferResourceIntegrationTest {
 				.path(String.valueOf(product.getId()))				
 				.request()
 				.accept(MediaType.APPLICATION_JSON)		
-				.get(Product.class);		
-		
+				.get(Product.class);			
 	}
 
 }
