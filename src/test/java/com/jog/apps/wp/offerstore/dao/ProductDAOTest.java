@@ -32,7 +32,7 @@ import com.jog.apps.wp.offerstore.exception.DAOException;
 import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class) 
-public class OfferDAOTest {
+public class ProductDAOTest {
 	
 	@Mock
 	NamedParameterJdbcTemplate jdbcTemplate;
@@ -42,7 +42,7 @@ public class OfferDAOTest {
 		
 	
 	@InjectMocks
-	private OfferDAO offerDAO= new OfferDAOImpl();
+	private ProductDAO offerDAO= new ProductDAOImpl();
 
 	@Before
 	public void setUp() throws Exception {
@@ -61,7 +61,7 @@ public class OfferDAOTest {
 	public void verifyThatJdbcTemplateIsCalled() throws DAOException{		
 		when(jdbcTemplate.update(anyString(), anyMapOf(String.class, Object.class))).thenReturn(1);
 		
-		offerDAO.createProductOffer(setUpProduct());		
+		offerDAO.createProduct(setUpProduct());		
 		
 		verify(jdbcTemplate).update(anyString(), anyMapOf(String.class, Object.class));
 	}
@@ -70,13 +70,13 @@ public class OfferDAOTest {
 	public void shouldThrowExceptionWhenNoInsertOccurs() throws DAOException{		
 		when(jdbcTemplate.update(anyString(), anyMapOf(String.class, Object.class))).thenReturn(0);
 		
-		offerDAO.createProductOffer(setUpProduct());
+		offerDAO.createProduct(setUpProduct());
 	}
 
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void shouldThrowIllegalArgumentExceptionWhenProductIsNull() throws DAOException{
-		offerDAO.createProductOffer(null);
+		offerDAO.createProduct(null);
 	}
 	
 	
@@ -84,7 +84,7 @@ public class OfferDAOTest {
 	public void shouldThrowDAOExceptionWhenInsertErrorsOccurs() throws DAOException{		
 		doThrow(DataIntegrityViolationException.class).when(jdbcTemplate).update(anyString(), anyMapOf(String.class, Object.class));
 		
-		offerDAO.createProductOffer(setUpProduct());
+		offerDAO.createProduct(setUpProduct());
 	}
 	
 	

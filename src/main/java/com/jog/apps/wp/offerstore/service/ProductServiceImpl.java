@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jog.apps.wp.offerstore.dao.OfferDAO;
+import com.jog.apps.wp.offerstore.dao.ProductDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
 import com.jog.apps.wp.offerstore.exception.DAOException;
 import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
@@ -17,16 +17,16 @@ import com.jog.apps.wp.offerstore.exception.ServiceException;
 class ProductServiceImpl implements ProductService {
 	
 	@Autowired
-	private OfferDAO offerDao;
+	private ProductDAO productDao;
 
 	@Override
-	public int createProductOffer(Product product) throws ServiceException {
+	public int createProduct(Product product) throws ServiceException {
 		if(product == null || StringUtils.isEmpty(product.getName())){
 			throw new IllegalArgumentException("Product or product name should not be null");
 		}	
 		
 		try {
-			return offerDao.createProductOffer(product);
+			return productDao.createProduct(product);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e.getCause());
 		}
@@ -34,9 +34,9 @@ class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProductOffer(int id) throws ItemNotFoundException, ServiceException {
+	public Product getProduct(int id) throws ItemNotFoundException, ServiceException {
 		try {
-			return offerDao.fetchProductById(id);
+			return productDao.fetchProductById(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e.getCause());
 		}
@@ -46,7 +46,7 @@ class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProducts() throws ServiceException {
 		try{
-			return offerDao.fetchAllProducts();
+			return productDao.fetchAllProducts();
 		} catch(DAOException ex){
 			throw new ServiceException(ex.getMessage(), ex.getCause());
 		}

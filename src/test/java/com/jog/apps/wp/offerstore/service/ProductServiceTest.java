@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.jog.apps.wp.offerstore.dao.OfferDAO;
+import com.jog.apps.wp.offerstore.dao.ProductDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
 import com.jog.apps.wp.offerstore.exception.DAOException;
 import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
@@ -29,7 +29,7 @@ public class ProductServiceTest {
 	private Product product;
 
 	@Mock
-	private OfferDAO offerDao;
+	private ProductDAO productDao;
 
 	@InjectMocks
 	private ProductService productService = new ProductServiceImpl();
@@ -43,28 +43,28 @@ public class ProductServiceTest {
 	//Create Product Tests
 	@Test
 	public final void verifyThatCreateProductCallsDOA() throws Exception {
-		productService.createProductOffer(product);
+		productService.createProduct(product);
 
-		verify(offerDao).createProductOffer(product);
+		verify(productDao).createProduct(product);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public final void shouldThrowIllegalExceptionWhenProductIsNull() throws Exception {
-		productService.createProductOffer(null);
+		productService.createProduct(null);
 	}
 
 	@Test(expected = ServiceException.class)
 	public final void shouldThrowServiceExceptionWhenDataAccessExceptionIsCaught() throws Exception {
-		doThrow(new DAOException()).when(offerDao).createProductOffer(product);
+		doThrow(new DAOException()).when(productDao).createProduct(product);
 
-		productService.createProductOffer(product);
+		productService.createProduct(product);
 	}
 
 	@Test(expected = RuntimeException.class)
 	public final void shouldThrowOtherExceptionsThrownFromDAO() throws Exception {
-		doThrow(new RuntimeException()).when(offerDao).createProductOffer(product);
+		doThrow(new RuntimeException()).when(productDao).createProduct(product);
 
-		productService.createProductOffer(product);
+		productService.createProduct(product);
 	}
 	
 	//Get Product Tests	
@@ -72,26 +72,26 @@ public class ProductServiceTest {
 	public void shouldGetProduct() throws Exception{
 		product.setId(100);
 		
-		when(offerDao.fetchProductById(100)).thenReturn(product);
+		when(productDao.fetchProductById(100)).thenReturn(product);
 		
-		Product returnedProduct = productService.getProductOffer(100);
+		Product returnedProduct = productService.getProduct(100);
 		
 		assertThat(returnedProduct,	is(product));
-		verify(offerDao).fetchProductById(100);
+		verify(productDao).fetchProductById(100);
 	}
 	
 	@Test(expected = ItemNotFoundException.class)
 	public final void shouldThrowINFExceptionWhenProductIsNotFound() throws Exception {
-		doThrow(ItemNotFoundException.class).when(offerDao).fetchProductById(1);
+		doThrow(ItemNotFoundException.class).when(productDao).fetchProductById(1);
 
-		productService.getProductOffer(1);
+		productService.getProduct(1);
 	}
 	
 	@Test(expected = ServiceException.class)
 	public final void shouldThrowServiceExceptionWhenDAOExceptionOccurs() throws Exception {
-		doThrow(DAOException.class).when(offerDao).fetchProductById(1);
+		doThrow(DAOException.class).when(productDao).fetchProductById(1);
 
-		productService.getProductOffer(1);
+		productService.getProduct(1);
 	}
 	
 	//Get All Products Tests	
@@ -99,19 +99,19 @@ public class ProductServiceTest {
 	public void shouldGetAllProducts() throws Exception{
 		List<Product> products = Arrays.asList(new Product(), new Product());
 		
-		when(offerDao.fetchAllProducts()).thenReturn(products);
+		when(productDao.fetchAllProducts()).thenReturn(products);
 		
 		List<Product> returnedProducts = productService.getProducts();
 		
 		assertThat(returnedProducts,	is(products));
 		
-		verify(offerDao).fetchAllProducts();
+		verify(productDao).fetchAllProducts();
 	}
 	
 	
 	@Test(expected = ServiceException.class)
 	public final void shouldThrowServiceExceptionForGetProducts() throws Exception {
-		doThrow(DAOException.class).when(offerDao).fetchAllProducts();
+		doThrow(DAOException.class).when(productDao).fetchAllProducts();
 
 		productService.getProducts();
 	}

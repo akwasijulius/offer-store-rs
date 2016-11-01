@@ -35,8 +35,8 @@ import com.jog.apps.wp.offerstore.service.ProductService;
  */
 @Path("/offers")
 @Component
-public class ProductOfferResource {
-	private static Logger logger = LogManager.getLogger(ProductOfferResource.class);
+public class ProductResource {
+	private static Logger logger = LogManager.getLogger(ProductResource.class);
 
 	@Autowired
 	ProductService productService;
@@ -44,10 +44,10 @@ public class ProductOfferResource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createProductOffer(Product product) {
+	public Response createProduct(Product product) {
 		try {
 
-			int productId = productService.createProductOffer(product);
+			int productId = productService.createProduct(product);
 
 			return Response.status(Response.Status.CREATED).entity(productId).build();
 
@@ -63,9 +63,9 @@ public class ProductOfferResource {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product getProductOffer(@PathParam("id") int id) throws Exception {
+	public Product getProduct(@PathParam("id") int id) throws Exception {
 		try {
-			return productService.getProductOffer(id);
+			return productService.getProduct(id);
 		} catch (ItemNotFoundException ex) {			
 			throw new WebApplicationException(ex.getMessage(), NOT_FOUND);
 		} catch (ServiceException ex) {			

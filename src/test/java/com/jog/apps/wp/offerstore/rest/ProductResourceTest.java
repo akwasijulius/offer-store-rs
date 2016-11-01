@@ -26,13 +26,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.jog.apps.wp.offerstore.entity.Product;
 import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 import com.jog.apps.wp.offerstore.exception.ServiceException;
-import com.jog.apps.wp.offerstore.rest.ProductOfferResource;
 import com.jog.apps.wp.offerstore.service.ProductService;
 
-import cucumber.runtime.NullSummaryPrinter;
-
 @RunWith(MockitoJUnitRunner.class)
-public class ProductOfferResourceTest {
+public class ProductResourceTest {
 	@Mock
 	ProductService productService;
 	
@@ -40,7 +37,7 @@ public class ProductOfferResourceTest {
 	ResponseBuilder responseBuilder;
 	
 	@InjectMocks
-	ProductOfferResource productOfferResource = new ProductOfferResource();;
+	ProductResource productResource = new ProductResource();;
 
 
 	@Before
@@ -52,14 +49,14 @@ public class ProductOfferResourceTest {
 	public void testCreateProductOffer() throws Exception {
 		Product product = new Product("name", "decription", BigDecimal.ONE);			
 		
-		when(productService.createProductOffer(product)).thenReturn(101);
+		when(productService.createProduct(product)).thenReturn(101);
 		
 		Response response = Mockito.mock(Response.class, Mockito.CALLS_REAL_METHODS);	
 		when(responseBuilder.entity(101)).thenReturn(responseBuilder);
 		when(responseBuilder.build()).thenReturn(response);
 		
 		
-		Response returnedResponse = productOfferResource.createProductOffer(product);
+		Response returnedResponse = productResource.createProduct(product);
 	
 		assertThat(returnedResponse, is(notNullValue()));
 		assertThat(returnedResponse.getStatus(), is(Response.Status.CREATED.getStatusCode()));
@@ -70,9 +67,9 @@ public class ProductOfferResourceTest {
 	@Test(expected=WebApplicationException.class)
 	public void testCreateProductOfferWhenProductIsNull() throws Exception {	
 		
-		when(productService.createProductOffer(null)).thenThrow(new IllegalArgumentException());
+		when(productService.createProduct(null)).thenThrow(new IllegalArgumentException());
 						
-		productOfferResource.createProductOffer(null);		
+		productResource.createProduct(null);		
 	}
 	
 	
@@ -80,9 +77,9 @@ public class ProductOfferResourceTest {
 	@Test(expected=WebApplicationException.class)
 	public void testCreateProductOfferWhenServiceExceptionIsThrown() throws Exception {	
 		
-		when(productService.createProductOffer(null)).thenThrow(new ServiceException("Exception Throw", new RuntimeException()));
+		when(productService.createProduct(null)).thenThrow(new ServiceException("Exception Throw", new RuntimeException()));
 						
-		productOfferResource.createProductOffer(null);		
+		productResource.createProduct(null);		
 	}
 	
 	
@@ -90,9 +87,9 @@ public class ProductOfferResourceTest {
 	public void testGetProductOfferShouldReturnProduct() throws Exception{
 		int productId = 101; 
 				
-		when(productService.getProductOffer(productId)).thenReturn(new Product("name", "description", BigDecimal.ONE).setId(productId));
+		when(productService.getProduct(productId)).thenReturn(new Product("name", "description", BigDecimal.ONE).setId(productId));
 		
-		Product product = productOfferResource.getProductOffer(productId);
+		Product product = productResource.getProduct(productId);
 		
 		assertThat(product, is(notNullValue()));
 		assertThat(product.getId(), is(productId));
@@ -105,9 +102,9 @@ public class ProductOfferResourceTest {
 	
 	@Test(expected=WebApplicationException.class)
 	public void shouldExpectINFExceptionWhenProductDoesNotExist() throws Exception{
-		when(productService.getProductOffer(100)).thenThrow(new ItemNotFoundException("Product not found"));
+		when(productService.getProduct(100)).thenThrow(new ItemNotFoundException("Product not found"));
 		
-		productOfferResource.getProductOffer(100);		
+		productResource.getProduct(100);		
 	}
 	
 
@@ -115,17 +112,17 @@ public class ProductOfferResourceTest {
 	public void shouldExpectServiceExceptionWhenGetProductFails() throws Exception{
 		int productId = 100; 
 				
-		when(productService.getProductOffer(productId)).thenThrow(new ServiceException("Fetching Product Offer failed.", new Exception()));
+		when(productService.getProduct(productId)).thenThrow(new ServiceException("Fetching Product Offer failed.", new Exception()));
 		
-		productOfferResource.getProductOffer(productId);		
+		productResource.getProduct(productId);		
 	}
 	
 	
 	@Test(expected=WebApplicationException.class)
 	public void shouldExpectExceptionWhenGetProductFails() throws Exception{				
-		when(productService.getProductOffer(1)).thenThrow(new NullPointerException("Unexpected Error occured"));
+		when(productService.getProduct(1)).thenThrow(new NullPointerException("Unexpected Error occured"));
 		
-		productOfferResource.getProductOffer(1);		
+		productResource.getProduct(1);		
 	}
 	
 	
@@ -136,7 +133,7 @@ public class ProductOfferResourceTest {
 		
 		when(productService.getProducts()).thenReturn(products);
 		
-		List<Product> returnedProducts = productOfferResource.getProducts();
+		List<Product> returnedProducts = productResource.getProducts();
 		
 		assertThat(returnedProducts, is(products));		
 	}
@@ -148,7 +145,7 @@ public class ProductOfferResourceTest {
 		
 		when(productService.getProducts()).thenReturn(products);
 		
-		List<Product> returnedProducts = productOfferResource.getProducts();
+		List<Product> returnedProducts = productResource.getProducts();
 		
 		assertThat(returnedProducts, is(products));		
 	}

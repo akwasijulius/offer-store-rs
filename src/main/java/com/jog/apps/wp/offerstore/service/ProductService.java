@@ -25,7 +25,7 @@ public interface ProductService {
 	 * @throws ServiceException if an error occurs during this process
 	 * @throw IllegalArgumentException if the specified product parameter is null
 	 */
-	public int createProductOffer(Product product) throws ServiceException;
+	public int createProduct(Product product) throws ServiceException;
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface ProductService {
 	 * @throws ItemNotFoundException if Product relation to the specified Id is not found
 	 * @throws ServiceException if an error occurs during this process
 	 */
-	public Product getProductOffer(int id) throws ItemNotFoundException, ServiceException;
+	public Product getProduct(int id) throws ItemNotFoundException, ServiceException;
 
 	
 	/**

@@ -30,9 +30,9 @@ import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
  *
  */
 @Repository
-class OfferDAOImpl implements OfferDAO {
+class ProductDAOImpl implements ProductDAO {
 
-	private static Logger logger = LogManager.getLogger(OfferDAOImpl.class);
+	private static Logger logger = LogManager.getLogger(ProductDAOImpl.class);
 
 	private static AtomicInteger sequenceIdGenetrator = new AtomicInteger(100);
 
@@ -40,7 +40,7 @@ class OfferDAOImpl implements OfferDAO {
 	NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Override
-	public int createProductOffer(Product product) throws DAOException {
+	public int createProduct(Product product) throws DAOException {
 		if (product == null) {
 			throw new IllegalArgumentException("Product is null");
 		}

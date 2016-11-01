@@ -14,7 +14,7 @@ import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
  * 
  * @author Julius Oduro
  */
-public interface OfferDAO {
+public interface ProductDAO {
 	
 	/**
 	 * Creates a product or good for offers in a data store 
@@ -24,7 +24,7 @@ public interface OfferDAO {
 	 * @throws DAOException if an error occurs during this process
 	 * @throws IllegalArgumentException if the specified product parameter is null
 	 */
-	public int createProductOffer(Product product) throws DAOException;
+	public int createProduct(Product product) throws DAOException;
 	
 	
 	
