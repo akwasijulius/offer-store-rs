@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.jog.apps.wp.offerstore.dao.ProductDAO;
 import com.jog.apps.wp.offerstore.entity.Product;
@@ -14,6 +15,7 @@ import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 import com.jog.apps.wp.offerstore.exception.ServiceException;
 
 @Service
+@Transactional
 class ProductServiceImpl implements ProductService {
 	
 	@Autowired

@@ -1,5 +1,5 @@
 # offer-store-rs
-JAX-RS Restful Services to create (and view) Product Offers using Jersery and H2 in-memory database.
+JAX-RS Restful Services to CRUD operations on Products using Jersery, Spring and H2 in-memory database.
 
 The application uses a multi-layered architecture, "coupled" together with Spring DI. <BR>
 The first layer is the RESTful layer, which is implemented using the Jersey RESTful Web Services framework, it has the role of a facade and delegates the logic to the business layer. <BR>

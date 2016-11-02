@@ -33,7 +33,7 @@ import com.jog.apps.wp.offerstore.service.ProductService;
  * 
  * @author Julius Oduro <protocol>://<service-name>/<ResourceType>/<ResourceID>
  */
-@Path("/offers")
+@Path("/products")
 @Component
 public class ProductResource {
 	private static Logger logger = LogManager.getLogger(ProductResource.class);
