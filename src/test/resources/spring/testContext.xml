@@ -8,7 +8,6 @@
 	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<context:component-scan base-package="com.jog.apps.wp.*" /> 
 
 	<context:property-placeholder location="classpath:config/jdbc.properties" />
 
@@ -20,26 +19,9 @@
 		<!-- <property name="defaultAutoCommit" value="false" /> -->
 	</bean> 
 	
-	<bean id="namedJdbcTemplate"
-		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg ref="dataSource" />
-	</bean>
 	
-	<!-- <bean id="jdbcTemplate"
-		class="org.springframework.jdbc.core.JdbcTemplate">
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
-	</bean> -->
-
-	<!-- <jdbc:embedded-database id="embedded-database" type="HSQL" database-name="myDB">
-		<jdbc:script location="classpath:db/create-db.sql" />
-		<jdbc:script location="classpath:db/insert-products.sql" /> 
-	</jdbc:embedded-database> -->
-	
-
-	<!-- enable the configuration of transactional behavior based on annotations -->
-	<tx:annotation-driven transaction-manager="txManager" />
-	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 </beans>

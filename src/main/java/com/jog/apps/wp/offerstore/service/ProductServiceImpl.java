@@ -15,7 +15,7 @@ import com.jog.apps.wp.offerstore.exception.ItemNotFoundException;
 import com.jog.apps.wp.offerstore.exception.ServiceException;
 
 @Service
-@Transactional
+@Transactional(rollbackFor=ServiceException.class)
 class ProductServiceImpl implements ProductService {
 	
 	@Autowired
@@ -36,6 +36,7 @@ class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Product getProduct(int id) throws ItemNotFoundException, ServiceException {
 		try {
 			return productDao.fetchProductById(id);
@@ -46,6 +47,7 @@ class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<Product> getProducts() throws ServiceException {
 		try{
 			return productDao.fetchAllProducts();

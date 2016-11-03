@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
@@ -18,12 +20,22 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.datasource.init.ScriptException;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jog.apps.wp.offerstore.entity.Product;
@@ -36,22 +48,28 @@ import com.jog.apps.wp.offerstore.entity.Product;
  * @author Julius Oduro
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(locations = {"classpath:spring/applicationContext.xml"})
-@Transactional
-@Rollback
+@ContextConfiguration(locations = {"classpath:spring/testContext.xml"})
 public class ProductOfferResourceIntegrationTest {
 	Logger logger = LogManager.getLogger(ProductOfferResourceIntegrationTest.class);
+	
 	private Product product;
 	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
 	@Before
-	public void setUp(){
+	public void setUp(){		
+		JdbcTestUtils.deleteFromTables(jdbcTemplate, "Products");
+		
 		product = new Product("Swag Shoe", "Very Old Swag Shoe", TEN);
+		// load test data into the database. This currently inserts 3 products
+		this.loadTestData();
 	}
 	
+	
 	// Create Product Tests
-
 	@Test
-	public void shouldCreateProductOfferSuccessfully(){		
+	public void shouldCreateProductOfferSuccessfully(){	
 		Client client = ClientBuilder.newClient();		
 		Response response = client.target("http://localhost:8080/offer-store/products/")				
 				.request(MediaType.APPLICATION_JSON)
@@ -60,6 +78,9 @@ public class ProductOfferResourceIntegrationTest {
 			
 		assertThat(response.getStatus(), is( Status.CREATED.getStatusCode()));
 		assertThat(response.readEntity(Integer.class), is(not(0)));		
+		
+		int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "Products");
+		logger.info("Total number in table: {}", count);
 	}
 	
 	
@@ -90,8 +111,9 @@ public class ProductOfferResourceIntegrationTest {
 	//////// Get Product Tests //////	
 	@Test
 	public void shouldBeAbleToRetriveProductCreated(){		
-		// Retrieves a product created by the insert-products script
+		//NOTE: This retrieves a product that been already created by the insert-products script
 		Product existingProduct = new Product().setId(901).setName("Digital Clock");
+		
 		Client client = ClientBuilder.newClient();					
 		Product returnedProduct = client.target("http://localhost:8080/offer-store/products/")
 				.path(String.valueOf(901))				
@@ -117,7 +139,7 @@ public class ProductOfferResourceIntegrationTest {
 	
 	///// Get All Products Tests //////
 	@Test
-	public void testGetAllProducts(){		
+	public void testGetAllProducts() throws Exception{			
 		Client client = ClientBuilder.newClient();		
 		Response response = client.target("http://localhost:8080/offer-store/products/")				
 				.request()
@@ -126,8 +148,18 @@ public class ProductOfferResourceIntegrationTest {
 			
 		// There should be only 3 pre-existing items in the database, as per the insert-products script
 		List<Product> products = response.readEntity(new GenericType<List<Product>>() {	});
+		logger.info("Products returned .......");
+		products.forEach(p->logger.info(p.toString()));
+		
 		assertThat(products.size(), is(3));
-		response.close();
 	}
+	
+	
+	private void loadTestData(){
+		Connection connection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());		
+		ScriptUtils.executeSqlScript(connection, new ClassPathResource("/db/insert-products.sql"));
+	}
+	
+	
 
 }

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -37,7 +38,7 @@ class ProductDAOImpl implements ProductDAO {
 	private static AtomicInteger sequenceIdGenetrator = new AtomicInteger(100);
 
 	@Autowired
-	NamedParameterJdbcTemplate jdbcTemplate;
+	NamedParameterJdbcTemplate namedJdbcTemplate;
 
 	@Override
 	public int createProduct(Product product) throws DAOException {
@@ -54,8 +55,11 @@ class ProductDAOImpl implements ProductDAO {
 			paramMap.put("description", product.getDescription());
 			paramMap.put("price", product.getPrice());
 
-			int insertedRows = jdbcTemplate.update(sql, paramMap);
-
+			int insertedRows = namedJdbcTemplate.update(sql, paramMap);
+			
+			if(product.getId() % 2 == 0){
+				throw new DataIntegrityViolationException( "my fake exception");
+			}
 			if (insertedRows == 1) {
 				logger.info("Product {}, {} created.", product.getId(), product.getName());
 				return product.getId();
@@ -78,7 +82,7 @@ class ProductDAOImpl implements ProductDAO {
 		SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
 
 		try {
-			return this.jdbcTemplate.queryForObject(sql, namedParameters, new ProductMapper());
+			return this.namedJdbcTemplate.queryForObject(sql, namedParameters, new ProductMapper());
 		}catch(EmptyResultDataAccessException ex){
 			logger.error( "Nothing found for Product Id {}", id);
 			throw new ItemNotFoundException("Product ID "+ id + " not found");
@@ -92,14 +96,14 @@ class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<Product> fetchAllProducts() throws DAOException {
 		try {
-			return this.jdbcTemplate.query("select * from Products", new ProductMapper());
+			List<Product> products = this.namedJdbcTemplate.query("select * from Products", new ProductMapper());
+			logger.debug("Products returned = {}",  products.size() );
+			return products;
 		} catch (DataAccessException e) {
 			logger.error( e.getMessage(), e);
 			throw new DAOException("Fetching Product Offer failed.", e);
 		}
 	}
-	
-	
 	
 	
 	
